@@ -16,11 +16,11 @@ export class ProductService {
         {
             const uniqueCode = await this.productModel.findOne({code: data.code});
             if (uniqueCode) return {success: false, msg: "Código ya existente"}
-
+            
             const product = new this.productModel(data);
-
+            
             await product.save();
-
+            
             return {success: true, msg: "Producto creado exitosamente"}
         }
         catch(e)

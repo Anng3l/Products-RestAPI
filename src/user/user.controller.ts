@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Response } from 'express';
 
@@ -76,5 +76,12 @@ export class UserController {
     {
       return res.status(500).json({msg: "Error al registrarse"})
     }
+  }
+
+  @Get('newAccessToken')
+  async generateNewAccessToken(
+  
+  ) {
+
   }
 }

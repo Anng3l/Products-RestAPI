@@ -63,9 +63,6 @@ export class UserService {
     }
 
 
-
-
-
     async generateAccessToken(userId: string, username: string): Promise<string> {
         const payload = { sub: userId, username };
 
@@ -86,5 +83,23 @@ export class UserService {
         });
 
         return token;
+    }
+
+    async validateRefreshToken(refreshToken: string): Promise<any> {
+        
+        try
+        {
+            const payload = this.jwtService.
+            verify(
+                refreshToken, 
+                { secret: this.configService.get<string>('JWT_REFRESH_SECRET') }
+            )
+
+            return { success: true, msg: "Refresh token válido", payload }    
+        }
+        catch(e)
+        {
+            return { success: false, msg: "Refresh token inválido" }
+        }
     }
 }

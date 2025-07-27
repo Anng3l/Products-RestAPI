@@ -1,11 +1,13 @@
-import { Body, Controller, Get, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Response, response } from 'express';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Post('create')
   async postProduct(
     //Cuerpo de la request
@@ -29,11 +31,10 @@ export class ProductController {
       {
         return res.status(400).json({ msg: 'Datos inválidos o campos fuera de rango' });
       }
-
+      
       const resultado = await this.productService.createProduct(data);
       
       if (resultado.success === false) return res.status(203).json({msg: resultado.msg});
-      
 
       return res.status(200).json({msg: "Producto creado satisfactoriamente"});
     }
@@ -44,7 +45,7 @@ export class ProductController {
 
   }
 
-
+  @UseGuards(AuthGuard('jwt'))
   @Put('update')
   async updateProduct(
     @Body() data: any,
@@ -65,16 +66,16 @@ export class ProductController {
     }
   }
 
-
+  @UseGuards(AuthGuard('jwt'))
   @Get('one')
   async getOneProduct(
-    @Body() code:string,
+    @Body() code:any,
     @Res() res:Response
   ) 
   {
     try
     {
-      const resultado = await this.productService.getOneProduct(code);
+      const resultado = await this.productService.getOneProduct(code.code);
       if (resultado.success === false) return res.status(203).json({msg: resultado.msg});
 
       return res.status(200).json(resultado);
@@ -85,7 +86,7 @@ export class ProductController {
     }
   }
 
-
+  @UseGuards(AuthGuard('jwt'))
   @Get('all')
   async getAllProducts(
     @Res() res:Response

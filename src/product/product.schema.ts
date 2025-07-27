@@ -36,7 +36,6 @@ export class Product extends Document {
     @Prop({
         type: String,
         enum: ['limpieza', 'hogar', 'tecnología', 'electrodomésticos', 'salud'],
-        minlength: 10,
         maxlength: 200,
         required: true
     })
