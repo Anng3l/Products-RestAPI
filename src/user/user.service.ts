@@ -10,7 +10,9 @@ import { ConfigService } from '@nestjs/config';
 export class UserService {
 
     constructor(
-        @InjectModel(User.name) private userModel: Model<UserDocument>,
+        @InjectModel(User.name) 
+        private userModel: Model<UserDocument>,
+        
         private jwtService: JwtService,
         private configService: ConfigService
     ){}

@@ -21,7 +21,9 @@ export class Product extends Document {
     @Prop({
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        
+        length: 4
     })
     code: string
 
@@ -34,6 +36,8 @@ export class Product extends Document {
     @Prop({
         type: String,
         enum: ['limpieza', 'hogar', 'tecnología', 'electrodomésticos', 'salud'],
+        minlength: 10,
+        maxlength: 200,
         required: true
     })
     category: Category
@@ -48,6 +52,5 @@ export class Product extends Document {
     })
     stock: number
 }
-
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
